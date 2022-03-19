@@ -1,3 +1,23 @@
+*{
+    box-sizing: border-box;
+}
 body{
-    background-color:black;
+    margin: 0;
+    padding: 0;
+}
+#navbar {
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #333;  
+    color:white;
+}
+#navbar > #title{
+    font-size: 2rem;
+    margin: .5rem;
+}
+#navbar-links ul {
+    margin: 0;
+    padding: 0;
+    display: flex;
 }
