@@ -1,2 +1,2 @@
 # TheBluePineapple.github.io
-My [personal website](thebluepineapple.github.io) and portfolio
+My [personal website](https://thebluepineapple.github.io/) and portfolio
