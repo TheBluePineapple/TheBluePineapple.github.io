@@ -7,15 +7,178 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link type="text/css" rel="stylesheet" href="style.css">
     <link type="text/css" rel="stylesheet" href="navbar.css">
+    <style>
+        #projects-container {
+            margin: 10px;
+            padding: 10px;
+            display: grid;
+            gap: 1rem;
+            background-color: #bbb;
 
+            /* autofix prevents overflow recalc column size, "auto-fill" creates additional columns when there is space */
+            /* grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); */
+            grid-template-columns: repeat(auto-fit, minmax(140px, 10%));
+            grid-auto-rows: 160px;
+            /* not responsvie, hardcoded */
+            /* grid-template-columns: 1fr 1fr 1fr 1fr; */
+
+            /*same as above, space for each column*/
+            /* grid-template-columns: repeat(4, 1fr); */
+
+            /* set must be at least min value, get as close to high as possible */
+            /* grid-template-columns: repeat(12, minmax(240px, 1fr)); */
+        }
+
+        .project-card {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            background: #353535;
+            font-size: 1rem;
+            color: #fff;
+            box-shadow: rgba(3, 8, 20, 0.1) 0px 0.15rem 0.5rem, rgba(2, 8, 20, 0.1) 0px 0.075rem 0.175rem;
+            height: 100%;
+            width: 100%;
+            border-radius: 4px;
+            transition: all 500ms;
+            overflow: hidden;
+
+            margin: 2px;
+            padding: 5px;
+
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .project-card>.thumbnail {
+            width: 60%;
+            margin: 0px;
+            padding: 0px;
+            margin-top: 5px;
+            /* height: 80%; */
+            /* width: minmax(30px, 100%);
+            height: minmax(30px, 100%); */
+        }
+
+        .project-card>.title {
+            margin: 0px;
+            padding: 0px;
+            color: white;
+        }
+
+        .project-card>.description {
+            margin: 2px;
+            padding: 2px;
+            font-style: italic;
+            font-size: 0.75rem;
+            color: white;
+            text-decoration: none;
+            /* width: 100px;
+            height: 100px; */
+            /* overflow: hidden; */
+            /* text-overflow: ellipsis; */
+            text-align: center;
+        }
+
+        .project-card:hover {
+            box-shadow: rgba(2, 8, 20, 0.1) 0px 0.35em 1.175em, rgba(2, 8, 20, 0.08) 0px 0.175em 0.5em;
+            transform: translateY(-3px) scale(1.1);
+            /* transform: rotate3d(0, -1, -1, 10deg); */
+
+        }
+    </style>
     <title>TheBluePineapple</title>
 </head>
 
 <body>
     <div id="navigation"></div>
 
+
+    <section id="projects-container">
+    </section>
+
     <script src="navbar.js"></script>
-    <script src="script.js"></script>
+    <script>
+        /**
+         * Put pinned gh projects in flexbox row under resume
+         * 
+         * Viewing live projects:
+         *      Default index/css not in folder
+         *      default in default folder
+         *      iframe on seperate page with url params
+         *      link to live preview on gh pages
+         *      always use default html, then if it has another html file, put it in an iframe
+         *      
+         * 
+         * CURRENT PLAN:
+         *      Host with gh pages
+         *      have own html and css files
+         *      no iframe
+         *      
+         *      
+         *      
+         *      
+         **/
+
+
+        //create a card for each project, fall back on defaults
+        fetch("https://api.github.com/repos/TheBluePineapple/Simulations/contents")
+            .then(res => res.json())
+            .then(data => {
+                let projectsContainer = document.getElementById("projects-container")
+                data.forEach((file) => {
+                    if (file.type === "dir" && file.path !== "default") {
+
+                        let project = document.createElement("div");
+                        project.className = "project-card";
+
+                        function imageExists(url) {
+                            var http = new XMLHttpRequest();
+                            http.open('HEAD', url, false);
+                            http.send();
+                            return http.ok ? url : false;
+                        }
+
+                        //get the thumbnail and link to github page
+                        project.innerHTML = `
+                            <img class="thumbnail" srcset="https://github.com/TheBluePineapple/Simulations/blob/main/${file.path}/thumb.png?raw=true" alt="Project Thumbnail">
+                            <a class="title" title="View Live" href="https://thebluepineapple.github.io/Simulations/${file.path}" target="_new">${file.name}</a>
+                        `;
+                        // src="https://github.com/TheBluePineapple/Simulations/blob/main/default/thumb.png?raw=true"
+                        // <a class="title" title href="${file.html_url}" target="_new">${file.name}</a>
+                        // <p class="preview-link">View live:<a href="https://thebluepineapple.github.io/Simulations/Project1"></a></p>
+
+                        //get the description of the project from the readme file
+                        fetch(`${file.url.split("?")[0]}/README.md?ref=main`)
+                            .then(res => res.json())
+                            .then(data => {
+                                let content;
+                                if (data.hasOwnProperty('message')) {
+                                    content = data.message;
+                                } else if (data.hasOwnProperty("content")) {
+                                    content = atob(data.content);
+                                }
+                                project.innerHTML += `<a class="description" target="_new" title="View Project Files on Github" href="${file.html_url}"><p>${content}</p></a>`
+                                projectsContainer.appendChild(project);
+                            })
+                            .catch(console.error());
+                        // var imgArr = document.getElementsByClassName("thumbnail");
+                        // imgArr.forEach(img => {
+                        //     img.onerror = function () {
+                        //         img.src = "https://github.com/TheBluePineapple/Simulations/blob/main/default/thumb.png?raw=true";
+                        //     };
+                        // })
+
+                    }
+                });
+            })
+            .catch(console.error());
+
+    </script>
+
+    <!-- <script src="script.js"></script> -->
 </body>
 
 </html>

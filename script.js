@@ -1,5 +1,4 @@
-// const hamburger = document.getElementById("hamburger");
-// const navLinks = document.getElementById("nav-links");
-// hamburger.addEventListener("click",()=>{
-//     navLinks.classList.toggle("active");
-// });
+// fetch("https://api.github.com/repos/TheBluePineapple/Simulations")
+//     .then(res => res.json())
+//     .then(data => console.log(data))
+//     .catch(console.error());
