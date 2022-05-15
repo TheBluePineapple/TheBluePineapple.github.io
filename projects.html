@@ -134,12 +134,6 @@
                         let project = document.createElement("div");
                         project.className = "project-card";
 
-                        function imageExists(url) {
-                            var http = new XMLHttpRequest();
-                            http.open('HEAD', url, false);
-                            http.send();
-                            return http.ok ? url : false;
-                        }
 
                         //get the thumbnail and link to github page
                         project.innerHTML = `
@@ -160,7 +154,7 @@
                                 } else if (data.hasOwnProperty("content")) {
                                     content = atob(data.content);
                                 }
-                                project.innerHTML += `<a class="description" target="_new" title="View Project Files on Github" href="${file.html_url}"><p>${content}</p></a>`
+                                project.innerHTML += `<a class="description" target="_blank" title="View Project Files on Github" href="${file.html_url}"><p>${content}</p></a>`
                                 projectsContainer.appendChild(project);
                             })
                             .catch(console.error());
