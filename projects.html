@@ -17,8 +17,13 @@
 
             /* autofix prevents overflow recalc column size, "auto-fill" creates additional columns when there is space */
             /* grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); */
+
+
+
             grid-template-columns: repeat(auto-fit, minmax(140px, 10%));
-            grid-auto-rows: 160px;
+            grid-template-rows: auto auto;
+
+
             /* not responsvie, hardcoded */
             /* grid-template-columns: 1fr 1fr 1fr 1fr; */
 
@@ -53,7 +58,7 @@
         }
 
         .project-card>.thumbnail {
-            width: 60%;
+            width: 75%;
             margin: 0px;
             padding: 0px;
             margin-top: 5px;
@@ -90,6 +95,7 @@
         }
     </style>
     <title>TheBluePineapple</title>
+    <link rel="shortcut icon" href="favicon.png">
 </head>
 
 <body>
@@ -134,11 +140,17 @@
                         let project = document.createElement("div");
                         project.className = "project-card";
 
+                        function imageExists(url) {
+                            var http = new XMLHttpRequest();
+                            http.open('HEAD', url, false);
+                            http.send();
+                            return http.ok ? url : false;
+                        }
 
                         //get the thumbnail and link to github page
                         project.innerHTML = `
                             <img class="thumbnail" srcset="https://github.com/TheBluePineapple/Simulations/blob/main/${file.path}/thumb.png?raw=true" alt="Project Thumbnail">
-                            <a class="title" title="View Live" href="https://thebluepineapple.github.io/Simulations/${file.path}" target="_new">${file.name}</a>
+                            <a href="https://thebluepineapple.github.io/Simulations/${file.path}" target="_blank" class="title" title="View Live">${file.name}</a>
                         `;
                         // src="https://github.com/TheBluePineapple/Simulations/blob/main/default/thumb.png?raw=true"
                         // <a class="title" title href="${file.html_url}" target="_new">${file.name}</a>
@@ -154,7 +166,8 @@
                                 } else if (data.hasOwnProperty("content")) {
                                     content = atob(data.content);
                                 }
-                                project.innerHTML += `<a class="description" target="_blank" title="View Project Files on Github" href="${file.html_url}"><p>${content}</p></a>`
+                                // <a href="https://www.khanacademy.org/computer-programming/fourier/6666949302992896" target="_blank"><img class="_un0iag" alt="" src="/computer-programming/fourier/6666949302992896/5436655551954944.png"></a>
+                                project.innerHTML += `<a href="${file.html_url}" target="_blank" class="description"  title="View Project Files on Github"><p>${content}</p></a>`
                                 projectsContainer.appendChild(project);
                             })
                             .catch(console.error());
