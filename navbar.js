@@ -1,6 +1,6 @@
 document.getElementById("navigation").innerHTML = `
 <nav id="navbar">
-    <div id="title">Title Here</div>
+    <div id="title"><a href="https://github.com/TheBluePineapple">TheBluePineapple</a></div>
     <a href="#" id="hamburger">
         <span class="bar"></span>
         <span class="bar"></span>
