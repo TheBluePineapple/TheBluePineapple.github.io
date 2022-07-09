@@ -9,6 +9,10 @@
     font-size: 2rem;
     margin: .75rem;
 }
+#navbar > #title > a{
+    text-decoration: none;
+    color:white;
+}
 #nav-links ul {
     margin: 0;
     padding: 0;
