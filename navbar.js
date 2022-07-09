@@ -1,7 +1,7 @@
 document.getElementById("navigation").innerHTML = `
 <nav id="navbar">
-    <a href="https://github.com/TheBluePineapple"><div id="title">TheBluePineapple</div></a>
-    <a href="#" id="hamburger">
+        <div id="title"><a href="https://github.com/TheBluePineapple">TheBluePineapple</a></div>
+        <a href="#" id="hamburger">
         <span class="bar"></span>
         <span class="bar"></span>
         <span class="bar"></span>
